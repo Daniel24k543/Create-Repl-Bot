@@ -13,7 +13,6 @@ app.post("/webhook", async (req, res) => {
   console.log("📩 Mensaje recibido:", text);
 
   if (!text || !phone) {
-    console.log("❌ Mensaje inválido o sin número.");
     return res.sendStatus(400);
   }
 
@@ -27,7 +26,7 @@ app.post("/webhook", async (req, res) => {
 
     try {
       await axios.post(
-        "https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342/token/0484ABAFEF4F50D7EBBE8506/send-messages",
+        "https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342/token/0484ABAFEF4F50D7EBBE8506/v2/send-message",
         {
           phone: phone,
           message: menuText,
@@ -49,3 +48,4 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
 });
+
