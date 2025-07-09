@@ -6,20 +6,18 @@ const PORT = process.env.PORT || 10000;
 app.use(express.json());
 
 app.post("/webhook", async (req, res) => {
-  const data = req.body;
+  const body = req.body;
 
-  // Verifica si viene un mensaje válido
-  const text = data?.body?.text?.toLowerCase();
-  const from = data?.body?.sender?.id;
+  const text = body?.text?.message?.toLowerCase(); // ahora sí: correcto
+  const phone = body?.phone;
 
-  if (!text || !from) {
-    console.log("Mensaje inválido recibido:", data);
+  if (!text || !phone) {
+    console.log("❌ Datos inválidos:", body);
     return res.sendStatus(400);
   }
 
   console.log("📩 Mensaje recibido:", text);
 
-  // Respuesta al mensaje "menú" o "menu"
   if (text === "menú" || text === "menu") {
     const menuText =
       "*📋 Menú principal:*\n" +
@@ -30,12 +28,12 @@ app.post("/webhook", async (req, res) => {
 
     try {
       await axios.post("https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342/token/0484ABAFEF4F50D7EBBE8506/send-messages", {
-        phone: from,
+        phone: phone,
         message: menuText,
       });
-      console.log("✅ Menú enviado correctamente");
-    } catch (error) {
-      console.error("❌ Error al enviar mensaje:", error.message);
+      console.log("✅ Menú enviado a", phone);
+    } catch (err) {
+      console.error("❌ Error al enviar mensaje:", err.message);
     }
   }
 
@@ -43,9 +41,10 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("✅ Bot WhatsApp activo.");
+  res.send("🤖 Bot WhatsApp activo.");
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
+  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
 });
+
