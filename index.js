@@ -30,7 +30,7 @@ app.post("/webhook", async (req, res) => {
         message: menuText,
       });
     } catch (error) {
-      console.error("Error al enviar mensaje:", error.message);
+      console.error("❌ Error al enviar mensaje:", error.message);
     }
   }
 
@@ -42,7 +42,8 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor en http://localhost:${PORT}`);
+  console.log(`✅ Servidor en http://localhost:${PORT}`);
 });
+
 
 
