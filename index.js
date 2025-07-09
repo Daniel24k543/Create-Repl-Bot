@@ -1,50 +1,23 @@
 const express = require('express');
-const cors = require('cors'); // <--- Agregamos CORS
 const axios = require('axios');
-
 const app = express();
-const PORT = 3000;
 
-// Middleware
-app.use(cors()); // <--- Activamos CORS
 app.use(express.json());
 
-// Ruta principal para recibir mensajes
-app.post('/', async (req, res) => {
-  const data = req.body;
+app.post('/', (req, res) => {
+  const body = req.body;
+  const message = body?.body?.text?.toLowerCase();
 
-  // Asegúrate de que hay texto en el mensaje
-  if (data?.text?.message) {
-    const mensaje = data.text.message.toLowerCase();
-
-    // Detectamos el comando "menu"
-    if (mensaje === 'menu') {
-      const numero = data.participantPhone || data.phone;
-
-      const payload = {
-        phone: numero,
-        message:
-          '*📋 MENÚ PRINCIPAL*\n\n' +
-          '1️⃣ Consultar DNI\n' +
-          '2️⃣ Ver horarios\n' +
-          '3️⃣ Hablar con un asesor\n\n' +
-          '_Escribe el número de la opción que deseas._'
-      };
-
-      // Enviar mensaje a través de Z-API
-      try {
-        await axios.post('https://api.z-api.io/instances/TU_INSTANCE_ID/token/TU_TOKEN_ZAPI/send-text', payload);
-        console.log('Menú enviado correctamente.');
-      } catch (error) {
-        console.error('Error al enviar el mensaje:', error.message);
-      }
-    }
+  if (message === 'menu' || message === 'menú') {
+    axios.post('https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342/token/0484ABAFFEF4F50D7EBBE8506/send-messages', {
+      phone: body.body.sender.id,
+      message: '📋 *Menú principal*\n1. Consultar DNI\n2. Ver estado\n3. Ayuda'
+    }).catch(err => console.error('Error al enviar mensaje:', err.response?.data || err.message));
   }
 
-  res.sendStatus(200); // Siempre respondemos 200 para que Z-API no reintente
+  res.sendStatus(200);
 });
 
-// Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+app.listen(3000, () => {
+  console.log('Servidor escuchando en el puerto 3000');
 });
