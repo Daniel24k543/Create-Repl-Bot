@@ -25,7 +25,7 @@ app.post("/webhook", async (req, res) => {
       "Escribe el número de la opción para continuar.";
 
     try {
-      await axios.post("https://api.z-api.io/instances/TU_INSTANCIA/token/TU_TOKEN/send-messages", {
+      await axios.post("https://api.z-api.io/instances/3EE734F23D450E9BA148258D1F0342/token/0484ABAFEF4F50D7EBBE8506/send-messages", {
         phone: from,
         message: menuText,
       });
@@ -44,4 +44,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor en http://localhost:${PORT}`);
 });
+
 
