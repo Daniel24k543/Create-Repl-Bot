@@ -1,7 +1,6 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -30,7 +29,7 @@ app.post("/webhook", async (req, res) => {
         message: menuText,
       });
     } catch (error) {
-      console.error("❌ Error al enviar mensaje:", error.message);
+      console.error("❌ Error al enviar mensaje:", error.response?.data || error.message);
     }
   }
 
@@ -41,9 +40,10 @@ app.get("/", (req, res) => {
   res.send("Bot activo.");
 });
 
+// ✅ Esta parte es la que corriges para que Render funcione bien
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Servidor en http://localhost:${PORT}`);
+  console.log(`✅ Servidor corriendo en el puerto ${PORT}`);
 });
-
 
 
