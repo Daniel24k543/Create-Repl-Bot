@@ -1,24 +1,28 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.use(express.json());
 
 app.post("/webhook", async (req, res) => {
-  const message = req.body.message;
-  if (!message) return res.sendStatus(400);
+  console.log("🔔 Webhook recibido:");
+  console.log(JSON.stringify(req.body, null, 2)); // Muestra el contenido del mensaje recibido
 
-  const text = message.text?.message?.toLowerCase(); // ✅ captura correctamente
-  const from = message.phone;
-  const name = message.pushName || "usuario";
+  try {
+    const message = req.body.message?.text?.body?.toLowerCase();
+    const sender = req.body.message?.from;
+    const name = req.body.message?.senderName || "usuario";
 
-  console.log("📩 Mensaje recibido:", text);
+    if (!message || !sender) {
+      console.log("❌ Mensaje inválido.");
+      return res.sendStatus(400);
+    }
 
-  if (text === "menú" || text === "menu") {
-    const menuMessage = {
-      phone: from,
-      message: `
+    console.log("📩 Mensaje recibido:", message);
+
+    if (message === "menu" || message === "menú") {
+      const menuMessage = `
 ┃ 『⚔️ 𝐃𝐀𝐓𝐀 𝐀𝐊𝐀𝐓𝐒𝐔𝐊𝐈 ⚡』
 ┃ *SISTEMA DE COMANDOS*
 ╰───────◆◇◆───────╯
@@ -37,21 +41,21 @@ app.post("/webhook", async (req, res) => {
 │ 🎁 GRATIS         🛡️ PNP
 │ 🌐 MUNDIAL        🕒 TEMPORAL
 ╰────────────────────────────╯
-`
-    };
+`;
 
-    try {
-      await axios.post(
-        "https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342D/token/0484ABAFEF4F50D7EBBE8506/send-messages",
-        menuMessage
-      );
+      await axios.post("https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342D/token/0484ABAFEF4F50D7EBBE8506/send-messages", {
+        phone: sender,
+        message: menuMessage,
+      });
+
       console.log("✅ Menú enviado correctamente.");
-    } catch (error) {
-      console.error("❌ Error al enviar el menú:", error.message);
     }
-  }
 
-  res.sendStatus(200);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("❌ Error al enviar el menú:", error.message);
+    res.sendStatus(500);
+  }
 });
 
 app.get("/", (req, res) => {
@@ -61,3 +65,4 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
