@@ -1,33 +1,42 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 
+// Tu ID y TOKEN de instancia
+const INSTANCE_ID = "3E3E734F23D450E9BA148258D1F0342";
+const TOKEN = "0484ABAFEF4F50D7EBBE8506";
+
+// Middleware para leer JSON
 app.use(express.json());
 
+// Ruta principal
+app.get("/", (req, res) => {
+  res.send("⚔️ Bot Akatsuki activo.");
+});
+
+// Ruta webhook para recibir mensajes
 app.post("/webhook", async (req, res) => {
-  console.log("🔔 Webhook recibido:");
-  console.log(JSON.stringify(req.body, null, 2)); // Muestra el contenido del mensaje recibido
+  const data = req.body;
 
-  try {
-    const message = req.body.message?.text?.body?.toLowerCase();
-    const sender = req.body.message?.from;
-    const name = req.body.message?.senderName || "usuario";
+  // Verifica que haya un mensaje
+  const text = data?.text?.message?.toLowerCase();
+  const phone = data?.phone;
 
-    if (!message || !sender) {
-      console.log("❌ Mensaje inválido.");
-      return res.sendStatus(400);
-    }
+  console.log("📥 Mensaje recibido:", text);
 
-    console.log("📩 Mensaje recibido:", message);
+  if (!text || !phone) {
+    return res.sendStatus(200); // Evita errores si el mensaje está vacío
+  }
 
-    if (message === "menu" || message === "menú") {
-      const menuMessage = `
-┃ 『⚔️ 𝐃𝐀𝐓𝐀 𝐀𝐊𝐀𝐓𝐒𝐔𝐊𝐈 ⚡』
+  // Si el usuario escribe "menú" o "menu"
+  if (text === "menú" || text === "menu") {
+    const message = 
+`┃ 『⚔️ 𝐃𝐀𝐓𝐀 𝐀𝐊𝐀𝐓𝐒𝐔𝐊𝐈 ⚡』
 ┃ *SISTEMA DE COMANDOS*
 ╰───────◆◇◆───────╯
 
-👤 *Hola,* ${name} 👋
+👤 *Hola,* 👋
 
 *BIENVENIDO A NUESTRO MENÚ PRINCIPAL DE COMANDOS.*
 
@@ -40,29 +49,25 @@ app.post("/webhook", async (req, res) => {
 │ 🎫 BAUCHER        🔍 INFO DNI
 │ 🎁 GRATIS         🛡️ PNP
 │ 🌐 MUNDIAL        🕒 TEMPORAL
-╰────────────────────────────╯
-`;
+╰────────────────────────────╯`;
 
-      await axios.post("https://api.z-api.io/instances/3E3E734F23D450E9BA148258D1F0342D/token/0484ABAFEF4F50D7EBBE8506/send-messages", {
-        phone: sender,
-        message: menuMessage,
+    try {
+      // Enviar respuesta por WhatsApp
+      await axios.post(`https://api.z-api.io/instances/${INSTANCE_ID}/token/${TOKEN}/send-messages`, {
+        phone: phone,
+        message: message,
       });
 
       console.log("✅ Menú enviado correctamente.");
+    } catch (err) {
+      console.error("❌ Error al enviar el menú:", err.message);
     }
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error("❌ Error al enviar el menú:", error.message);
-    res.sendStatus(500);
   }
+
+  res.sendStatus(200);
 });
 
-app.get("/", (req, res) => {
-  res.send("⚔️ Bot Akatsuki activo.");
-});
-
+// Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
-
