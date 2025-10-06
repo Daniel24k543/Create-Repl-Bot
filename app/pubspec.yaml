@@ -1,0 +1,21 @@
+name: flutter_app
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.0
+  dio: ^4.0.0
+  video_player: ^2.2.0
+  audioplayers: ^0.20.1
+  shared_preferences: ^2.0.6
+  image_picker: ^0.8.4
+  cached_network_image: ^3.2.1
+  get_it: ^7.2.0
+  jwt_decoder: ^2.0.1
+
+flutter:
+  uses-material-design: true
