@@ -1,0 +1,1 @@
+Express router with routes for GET /songs, POST /upload, GET /:id/stream, POST /:id/favorite. Include auth middleware. Comments in Spanish.

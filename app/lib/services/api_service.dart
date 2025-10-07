@@ -1,0 +1,1 @@
+API service class with methods for login, register, getVideoFeed, getMusicLibrary using HTTP requests to backend at localhost:3000/api. Include secure token storage using flutter_secure_storage.

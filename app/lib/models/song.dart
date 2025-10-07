@@ -1,0 +1,1 @@
+Song model class with fields: id, title, artist, audioUrl, coverImageUrl, duration, album, isPremium. Include fromJson, toJson, and formattedDuration getter methods.

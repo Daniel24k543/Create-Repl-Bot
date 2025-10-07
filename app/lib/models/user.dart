@@ -1,0 +1,1 @@
+User model class with fields: id, email, username, avatarUrl, followersCount, followingCount, isPremium. Include fromJson and toJson methods.

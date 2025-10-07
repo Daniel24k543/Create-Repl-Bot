@@ -1,0 +1,1 @@
+Express server setup with middleware (cors, helmet, morgan), routes for /api/auth, /api/videos, /api/music, error handling, and server listening on PORT from .env (default 3000). Include comments in Spanish.

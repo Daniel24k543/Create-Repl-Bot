@@ -1,0 +1,1 @@
+Auth controller with register and login functions using bcryptjs for password hashing and jsonwebtoken for JWT tokens. Include validation and error handling. Comments in Spanish.

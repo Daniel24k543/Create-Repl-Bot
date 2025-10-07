@@ -1,0 +1,1 @@
+Reusable bottom navigation widget with 5 tabs (Home, Music, Upload, Notifications, Profile).

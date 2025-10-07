@@ -1,0 +1,1 @@
+Express router with routes for GET /feed, POST /upload, GET /:id, POST /:id/like, POST /:id/comment. Include auth middleware. Comments in Spanish.

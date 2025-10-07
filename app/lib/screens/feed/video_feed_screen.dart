@@ -1,0 +1,1 @@
+Flutter screen with TikTok-style vertical video feed using PageView, action buttons (like, comment, share), and bottom navigation bar.

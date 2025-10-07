@@ -1,0 +1,1 @@
+JWT authentication middleware that verifies tokens from Authorization header. Include error handling. Comments in Spanish.

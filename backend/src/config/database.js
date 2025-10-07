@@ -1,0 +1,1 @@
+Database configuration for PostgreSQL using pg and MongoDB using mongoose. Export connection functions. Include error handling and comments in Spanish.

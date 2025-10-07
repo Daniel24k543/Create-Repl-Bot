@@ -1,0 +1,1 @@
+Video model class with fields: id, userId, username, videoUrl, thumbnailUrl, description, likesCount, commentsCount, sharesCount, createdAt. Include fromJson and toJson methods.
