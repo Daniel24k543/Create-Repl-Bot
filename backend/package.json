@@ -1,0 +1,35 @@
+{
+  "name": "createrepl-backend",
+  "version": "1.0.0",
+  "description": "Backend API for TikTok-style app with music streaming",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "keywords": ["tiktok", "music", "streaming", "api"],
+  "author": "Daniel24k543",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^8.0.3",
+    "pg": "^8.11.3",
+    "multer": "^1.4.5-lts.1",
+    "aws-sdk": "^2.1502.0",
+    "redis": "^4.6.11",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "morgan": "^1.10.0",
+    "joi": "^17.11.0",
+    "socket.io": "^4.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0"
+  }
+}
